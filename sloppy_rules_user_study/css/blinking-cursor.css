@@ -1,0 +1,59 @@
+#blinking-cursor {
+  position: absolute;
+  display: none;
+
+  font-weight: bold;
+  font-size: 20px;
+  color: steelblue;
+  
+  -webkit-animation: 0.6s blink step-end infinite;
+  -moz-animation: 0.6s blink step-end infinite;
+  -ms-animation: 0.6s blink step-end infinite;
+  -o-animation: 0.6s blink step-end infinite;
+  animation: 0.6s blink step-end infinite;
+}
+
+@keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: steelblue;
+  }
+}
+
+@-moz-keyframes blink {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: steelblue;
+  }
+}
+
+@-webkit-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: steelblue;
+  }
+}
+
+@-ms-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: steelblue;
+  }
+}
+
+@-o-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: steelblue;
+  }
+}

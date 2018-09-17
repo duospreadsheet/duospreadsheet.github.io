@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+	<title>Duo</title>
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="css/clusterize.css">
+	<link rel="stylesheet" type="text/css" href="css/tooltip.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-slider.min.css">
+	<link rel="stylesheet" type="text/css" href="css/loader.css">
+	<link rel="stylesheet" type="text/css" href="css/blinking-cursor.css">
+	<link rel="stylesheet" type="text/css" href="fonts/Font-Awesome/css/fontawesome-all.css">
+	<style id="table-resize-style"></style>
+	<style id="included-record-table-resize-style"></style>
+	<style id="excluded-record-table-resize-style"></style>
+
+	<script src="vender/d3.min.js"></script>
+	<script src="vender/jquery-3.3.1.min.js"></script>
+	<script src="vender/jquery-ui.min.js"></script>
+	<script src="vender/clusterize.min.js"></script>
+	<script src="vender/bootstrap-slider.js"></script>
+	<script src="vender/pluralize.js"></script>
+	<script src="vender/edit-distance.js"></script>
+</head>
+
+<body>
+	<div id="row1" class="noselection">
+		<div id="menu-bar" class="ui-view">
+
+			<input type="file" id="file-selector"/>
+			<label for="file-selector" class="load-file-button">
+				<span class="container"><span class="fas fa-file"></span>Load File</span>
+			</label>
+
+		</div>
+	</div>
+
+	<div id="row2" class="noselection">
+
+		<div id="group-viewer">
+			<div class="top viewer" class="ui-view">
+				<div class="header">
+					<span class="count">Included Records</span>
+					<span class="last-operation"></span>
+				</div>
+
+				<div class="content">
+
+					<div class="top-bar"> <!-- for hiding scrollbar -->
+						<div class="top-bar-scrollable-area"></div>
+					</div>
+
+					<div class="bottom-container">
+						<div class="left-bar"> <!-- for hiding scrollbar -->
+							<div id="included-record-left-bar-scrollable-area" class="left-bar-scrollable-area"> <!-- use id as it is used by clusterize -->
+								<div id="included-record-left-bar-content" class="left-bar-content"></div> <!-- use id as it is used by clusterize -->
+							</div>
+						</div>
+
+						<div id="included-record-table-scrollable-area" class="table-scrollable-area"> <!-- use id as it is used by clusterize -->
+							<div id="included-record-table-content" class="table-content"></div> <!-- use id as it is used by clusterize -->
+						</div>
+
+						<div class="resize-guide"></div>
+					</div>
+
+					<div class="loader">
+						<div class="sk-circle">
+							<div class="sk-circle1 sk-child"></div>
+						  	<div class="sk-circle2 sk-child"></div>
+						  	<div class="sk-circle3 sk-child"></div>
+						  	<div class="sk-circle4 sk-child"></div>
+						  	<div class="sk-circle5 sk-child"></div>
+						  	<div class="sk-circle6 sk-child"></div>
+						  	<div class="sk-circle7 sk-child"></div>
+						  	<div class="sk-circle8 sk-child"></div>
+						  	<div class="sk-circle9 sk-child"></div>
+						  	<div class="sk-circle10 sk-child"></div>
+						  	<div class="sk-circle11 sk-child"></div>
+						  	<div class="sk-circle12 sk-child"></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="bottom viewer" class="ui-view">
+				<div class="header">
+					<span class="count">Included Records</span>
+					<span class="last-operation"></span>
+				</div>
+				
+				<div class="content">
+
+					<div class="top-bar"> <!-- for hiding scrollbar -->
+						<div class="top-bar-scrollable-area"></div>
+					</div>
+
+					<div class="bottom-container">
+						<div class="left-bar"> <!-- for hiding scrollbar -->
+							<div id="excluded-record-left-bar-scrollable-area" class="left-bar-scrollable-area"> <!-- use id as it is used by clusterize -->
+								<div id="excluded-record-left-bar-content" class="left-bar-content"></div> <!-- use id as it is used by clusterize -->
+							</div>
+						</div>
+
+						<div id="excluded-record-table-scrollable-area" class="table-scrollable-area"> <!-- use id as it is used by clusterize -->
+							<div id="excluded-record-table-content" class="table-content"></div> <!-- use id as it is used by clusterize -->
+						</div>
+
+						<div class="resize-guide"></div>
+					</div>
+
+					<div class="loader">
+						<div class="sk-circle">
+							<div class="sk-circle1 sk-child"></div>
+						  	<div class="sk-circle2 sk-child"></div>
+						  	<div class="sk-circle3 sk-child"></div>
+						  	<div class="sk-circle4 sk-child"></div>
+						  	<div class="sk-circle5 sk-child"></div>
+						  	<div class="sk-circle6 sk-child"></div>
+						  	<div class="sk-circle7 sk-child"></div>
+						  	<div class="sk-circle8 sk-child"></div>
+						  	<div class="sk-circle9 sk-child"></div>
+						  	<div class="sk-circle10 sk-child"></div>
+						  	<div class="sk-circle11 sk-child"></div>
+						  	<div class="sk-circle12 sk-child"></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div id="table" class="ui-view">
+			<div class="filter-bar">
+				<div class="header">Filters</div>
+				<div class="content"></div>
+			</div>
+
+			<div class="top-bar"> <!-- for hiding scrollbar -->
+				<div class="top-bar-scrollable-area"></div>
+			</div>
+
+			<div class="bottom-container">
+				<div class="left-bar"> <!-- for hiding scrollbar -->
+					<div id="left-bar-scrollable-area"> <!-- use id as it is used by clusterize -->
+						<div id="left-bar-content"></div> <!-- use id as it is used by clusterize -->
+					</div>
+				</div>
+
+				<div id="table-scrollable-area"> <!-- use id as it is used by clusterize -->
+					<div id="table-content"></div> <!-- use id as it is used by clusterize -->
+				</div>
+
+				<div class="resize-guide"></div>
+			</div>
+
+			<div class="loader">
+				<div class="sk-circle">
+					<div class="sk-circle1 sk-child"></div>
+				  	<div class="sk-circle2 sk-child"></div>
+				  	<div class="sk-circle3 sk-child"></div>
+				  	<div class="sk-circle4 sk-child"></div>
+				  	<div class="sk-circle5 sk-child"></div>
+				  	<div class="sk-circle6 sk-child"></div>
+				  	<div class="sk-circle7 sk-child"></div>
+				  	<div class="sk-circle8 sk-child"></div>
+				  	<div class="sk-circle9 sk-child"></div>
+				  	<div class="sk-circle10 sk-child"></div>
+				  	<div class="sk-circle11 sk-child"></div>
+				  	<div class="sk-circle12 sk-child"></div>
+				</div>
+			</div>
+		</div>
+
+		<div id="group-editor" class="ui-view">
+			<div class="name-editor header">Name</div>
+			<div class="name-editor content">
+				<input type="text">
+			</div>
+
+			<div class="base-rule-editor header">
+				AND &<span class="clear-btn"><span class="fas fa-times"></span>Clear</span>
+			</div>
+			<div class="base-rule-editor content">
+				<div class='container'><div class='dummy'></div></div>
+			</div>
+
+			<div class="inclusion-rule-editor header">
+				ADD <span class='plus-sign'>+</span></i><span class="clear-btn"><span class="fas fa-times"></span>Clear</span>
+			</div>
+			<div class="inclusion-rule-editor content">
+				<div class='container'><div class='dummy'></div></div>
+			</div>
+
+			<div class="exclusion-rule-editor header">
+				REMOVE <span class='minus-sign'>-</span><span class="clear-btn"><span class="fas fa-times"></span>Clear</span>
+			</div>
+			<div class="exclusion-rule-editor content">
+				<div class='container'><div class='dummy'></div></div>
+			</div>
+
+			<div class="footer">
+				<div class="close-btn button"><i class="fas fa-times"></i>Close</div>
+				<div class="restore-btn button"><i class="fas fa-undo"></i>Restore</div>
+			</div>
+		</div>
+
+		<div id="sidebar" class="ui-view">
+			<div class="shelves">
+				<div class="shelf top-group">
+					<div class="title">Group</div>
+					<div class="container"></div>
+				</div>
+
+				<div class="shelf bottom-group">
+					<div class="title">Groups</div>
+					<div id="bottom-shelf-scroll-area" class="container">
+						<div id="bottom-shelf-content-area" class="dummy"></div>
+					</div>
+					<span class="clear-btn"><span class="fas fa-times"></span>Clear</span>
+				</div>
+
+				<div class="shelf attributes">
+					<div class="title">Attributes</div>
+					<div class="container"></div>
+					<span class="clear-btn"><span class="fas fa-times"></span>Clear</span>
+				</div>
+			</div>
+
+			<div class="result-panel">
+				<div class="question header"></div>
+				<div class="question content"></div>
+				<div class="answer header"></div>
+				<div class="answer content"></div>
+
+				<div class="loader">
+					<div class="sk-circle">
+						<div class="sk-circle1 sk-child"></div>
+					  	<div class="sk-circle2 sk-child"></div>
+					  	<div class="sk-circle3 sk-child"></div>
+					  	<div class="sk-circle4 sk-child"></div>
+					  	<div class="sk-circle5 sk-child"></div>
+					  	<div class="sk-circle6 sk-child"></div>
+					  	<div class="sk-circle7 sk-child"></div>
+					  	<div class="sk-circle8 sk-child"></div>
+					  	<div class="sk-circle9 sk-child"></div>
+					  	<div class="sk-circle10 sk-child"></div>
+					  	<div class="sk-circle11 sk-child"></div>
+					  	<div class="sk-circle12 sk-child"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="group-creator" class="noselection">
+
+		<div class="rule-editor">
+			<div class="input-box" contenteditable="true" data-text="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+
+			<div class="tabs">
+				<div class="and-tab tab"><span>AND &</span></div>
+				<div class="add-tab tab"><span>ADD<i class="fas fa-plus"></i></span></div>
+				<div class="remove-tab tab"><span>REMOVE<i class="fas fa-minus"></i></span></div>
+			</div>
+		</div>
+
+		<div class="categorical-attribute-value-pair menu">
+			<div class="attribute header">Attribute Names</div>
+			<div class="attribute content">
+				<div class='container'><div class='dummy'></div></div>
+			</div>
+
+			<div class="value header">Attribute Values</div>
+			<div class="value content">
+				<div id='attribute-value-scroll-area' class='container'> <!-- clusterize -->
+					<div id='attribute-value-content-area' class='dummy'></div> <!-- clusterize -->
+				</div>
+			</div>
+		</div>
+
+		<div class="numerical-attribute-value-pair menu">
+			<div class="attribute header">Attribute Names</div>
+			<div class="attribute content">
+				<div class='container'><div class='dummy'></div></div>
+			</div>
+
+			<div class="range header">Range</div>
+			<div class="range content">
+				<svg><g></g></svg>
+				<span class="min-text">min</span>
+				<input id="group-creator-slider" data-slider-id="group-creator-slider" type="text"/>
+				<span class="max-text">max</span>
+			</div>
+		</div>
+
+		<div class="attribute-only menu">
+			<div class="attribute header">Attribute Names</div>
+			<div class="attribute content">
+				<div class='container'><div class='dummy'></div></div>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="filter-menu" class="noselection ui-view">
+		<div class="sort header">Sort</div>
+		<div class="sort content">
+			<div class="ascending-btn button"><i class="fas fa-sort-alpha-down"></i>Ascending</div>
+			<div class="descending-btn button"><i class="fas fa-sort-alpha-up"></i>Descending</div>
+		</div>
+
+		<div class="filter header">Filter</div>
+		<div class="filter value content">
+			<div id="filter-value-scroll-area" class="container">
+				<div id="filter-value-content-area" class="dummy"></div>
+			</div>
+		</div>
+		<div class="filter value search-box">
+			<input type="text">
+			<span class="fas fa-search"></span>
+		</div>
+
+		<div class="filter range content">
+			<svg><g></g></svg>
+			<span class="min-text">min</span>
+			<input id="filter-slider" data-slider-id="filter-slider" type="text"/>
+			<span class="max-text">max</span>
+		</div>
+
+		<div class="footer">
+			<div class="confirm-btn button"><i class="fas fa-check"></i>Confirm</div>
+			<div class="cancel-btn button"><i class="fas fa-times"></i>Cancel</div>
+		</div>
+	</div>
+
+	<div id="distribution-pane" class="noselection ui-view">
+		<div class="header">Distribution</div>
+
+		<div class="categorical content">
+			<div id="distribution-value-scroll-area" class="container">
+				<div id="distribution-value-content-area" class="dummy"></div>
+			</div>
+		</div>
+
+		<div class="categorical search-box">
+			<input type="text">
+			<span class="fas fa-search"></span>
+		</div>
+
+		<div class="numerical content">
+			<svg></svg>
+			<div class="count"></div>
+			<div class="min"></div>
+			<div class="max"></div>
+		</div>
+	</div>
+
+	<div id="system-reasoning-panel" class="noselection">
+		<div class="text"></div>
+		
+		<div class="distribution">
+			<svg></svg>
+		</div>
+	</div>
+
+	<input type="text" id="filter-range-editor"/> <!-- for editing filter range -->
+	<input type="text" id="group-creator-range-editor"/> <!-- for editing the range -->
+	<div id="tooltip"></div>
+	<div id="blinking-cursor">|</div>
+	<div id="table-highlight-box"></div>
+
+	<script src="js/start.js"></script>
+	<script src="js/helpers.js"></script>
+	<script src="js/data.js"></script>
+	<script src="js/database.js"></script>
+	<script src="js/body.js"></script>
+
+	<script src="js/rangeEditor.js"></script> <!-- prototype -->
+	<script src="js/slider.js"></script> <!-- prototype -->
+
+	<script src="js/table.js"></script>
+	<script src="js/shelfGroup.js"></script>
+	<script src="js/shelf.js"></script>
+	<script src="js/resultPanel.js"></script>
+	<script src="js/groupEditor.js"></script>
+	<script src="js/groupViewer.js"></script>
+	<script src="js/filterMenu.js"></script>
+	<script src="js/filterRangeEditor.js"></script>
+	<script src="js/filterBar.js"></script>
+	<script src="js/ruleElement.js"></script>
+	<script src="js/tableHighlightBox.js"></script>
+	<script src="js/tableHelpers.js"></script>
+	<script src="js/textGenerator.js"></script>
+	<script src="js/menuBar.js"></script>
+	<script src="js/distributionPane.js"></script>
+	<script src="js/changeNameHandler.js"></script>
+	
+	<script src="js/oneToOneOperator.js"></script>
+	<script src="js/oneToOneAnswer.js"></script>
+	<script src="js/oneToManyOperator.js"></script>
+	<script src="js/oneToManyAnswer.js"></script>
+	<script src="js/operatorMediator.js"></script>
+
+	<script src="js/systemReasoningPanel.js"></script>
+	<script src="js/systemReasoningPanelBarChart.js"></script>
+	<script src="js/systemReasoningPanelHistogram.js"></script>
+	<script src="js/systemReasoningPanelDensityPlot.js"></script>
+	<script src="js/systemReasoningPanelExplanation.js"></script>
+
+	<script src="js/groupCreator.js"></script>
+	<script src="js/groupCreatorMenu.js"></script>
+	<script src="js/groupCreatorAttributeMenu.js"></script>
+	<script src="js/groupCreatorCategoricalMenu.js"></script>
+	<script src="js/groupCreatorNumericalMenu.js"></script>
+	<script src="js/groupCreatorInputBox.js"></script>
+	<script src="js/groupCreatorRangeEditor.js"></script>
+	<script src="js/groupCreatorTabs.js"></script>
+	<script src="js/groupCreatorHelpers.js"></script>
+</body>
