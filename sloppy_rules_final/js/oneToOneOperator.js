@@ -19,7 +19,7 @@ const OneToOneOperator = {
 		let numberOfBins = self.computeNumberOfBins(topShelfObjects, bottomShelfObjects);
 		let metadataForEachAttribute = self.computeMetadataForEachAttribute(topShelfObjects, bottomShelfObjects, attributeList, numberOfBins);
 		let binCountForEachAttribute = self.computeBinCountForEachAttribute(topShelfObjects, bottomShelfObjects, attributeList, metadataForEachAttribute, numberOfBins);
-		let probDistPairForEachAttribute = self.computeProbDistPairForEachAttribute(topShelfObjects, bottomShelfObjects, binCountForEachAttribute, metadataForEachAttribute, numberOfBins);
+		let probDistPairForEachAttribute = self.computeProbDistPairForEachAttribute(binCountForEachAttribute, metadataForEachAttribute, numberOfBins);
 		let meanInfoForEachNumericalAttribute = self.computeMeanInfoForEachNumericalAttribute(topShelfObjects, bottomShelfObjects, metadataForEachAttribute, attributeList, probDistPairForEachAttribute);
 		[ probDistPairForEachAttribute, metadataForEachAttribute ] = self.sortProbForCategoricalAttributes(probDistPairForEachAttribute, metadataForEachAttribute);
 
@@ -187,24 +187,32 @@ const OneToOneOperator = {
 		// return
 		return binCountForEachAttribute;
 	},
-	computeProbDistPairForEachAttribute: function(topShelfObjects, bottomShelfObjects, binCountForEachAttribute, metadataForEachAttribute, numberOfBins) {
+	computeProbDistPairForEachAttribute: function(binCountForEachAttribute, metadataForEachAttribute, numberOfBins) {
 		const probDistPairForEachAttribute = {};
 
 		for (let currentAttribute in binCountForEachAttribute) {
 			let isCurrentAttributeNumerical = Database.isCategoricalOrNumerical[currentAttribute] == 'numerical';
 			let binIndexList = [];
+			let topGroupCountExcludingMissing = 0;
+			let bottomGroupCountExcludingMissing = 0;
 
 			// init
 			probDistPairForEachAttribute[currentAttribute] =  {};
 			probDistPairForEachAttribute[currentAttribute].top = [];
 			probDistPairForEachAttribute[currentAttribute].bottom = [];
 
+			// init binIndexList
 			if (isCurrentAttributeNumerical) 
 				for (let i = 0; i < numberOfBins; i++)
 					binIndexList.push(i)
-
 			if (!isCurrentAttributeNumerical)
 				binIndexList = metadataForEachAttribute[currentAttribute].uniqueValues;
+
+			// init topGroupCountExcludingMissing and bottomGroupCountExcludingMissing
+			for (let binIndex in binCountForEachAttribute[currentAttribute].top)
+				topGroupCountExcludingMissing += binCountForEachAttribute[currentAttribute].top[binIndex];
+			for (let binIndex in binCountForEachAttribute[currentAttribute].bottom)
+				bottomGroupCountExcludingMissing += binCountForEachAttribute[currentAttribute].bottom[binIndex];
 
 			// convert to probDistPairForEachAttribute
 			for (let i = 0; i < binIndexList.length; i++) {
@@ -216,13 +224,13 @@ const OneToOneOperator = {
 
 				// store probability for top group
 				if (currentBinIndex in allTopCountsForCurrentAttr)
-					probDistPairForEachAttribute[currentAttribute].top.push(topCountForCurrentAttrValue / topShelfObjects.length);
+					probDistPairForEachAttribute[currentAttribute].top.push(topCountForCurrentAttrValue / topGroupCountExcludingMissing);
 				else
 					probDistPairForEachAttribute[currentAttribute].top.push(0);
 
 				// store probability for bottom group
 				if (currentBinIndex in allBottomCountsForCurrentAttr)
-					probDistPairForEachAttribute[currentAttribute].bottom.push(bottomCountForCurrentAttrValue / bottomShelfObjects.length);
+					probDistPairForEachAttribute[currentAttribute].bottom.push(bottomCountForCurrentAttrValue / bottomGroupCountExcludingMissing);
 				else
 					probDistPairForEachAttribute[currentAttribute].bottom.push(0);
 			}
