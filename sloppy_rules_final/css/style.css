@@ -5,6 +5,11 @@ body {
     margin: 8px;
 }
 
+span[contenteditable="true"] { /* fix safari bugs */
+    -webkit-user-select: text;
+    user-select: text;
+}
+
 div[contenteditable="true"] { /* fix safari bugs */
     -webkit-user-select: text;
     user-select: text;
