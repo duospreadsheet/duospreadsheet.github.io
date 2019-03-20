@@ -67,12 +67,12 @@ var ResultPanel = {
 		$('#sidebar .result-panel .question.header')
 			.html('Question')
 			.css('display', 'none')
-			.fadeIn();
+			.fadeTo(400, 1);
 		$('#sidebar .result-panel .question.content')
 			.html(questionHTML)
 			.css('display', 'none')
 			.css('border-bottom', '1px solid #efefef')
-			.fadeIn();
+			.fadeTo(400, 1);
 	},
 	removeQuestion: function() {
 		$('#sidebar .result-panel .question.header')
@@ -174,12 +174,12 @@ var ResultPanel = {
 		$('#sidebar .result-panel .answer.header')
 			.html('Answer')
 			.css('display', 'none')
-			.fadeIn();
+			.fadeTo(400, 1);
 		$('#sidebar .result-panel .answer.content')
 			.html(answerHTML)
 			.css('display', 'none')
 			.css('height', answerContentHeight) 
-			.fadeIn();
+			.fadeTo(400, 1);
 	},
 	removeAnswer: function() {
 		$('#sidebar .result-panel .answer.header')

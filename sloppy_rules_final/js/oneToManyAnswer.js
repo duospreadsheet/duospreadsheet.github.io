@@ -97,10 +97,10 @@ const OneToManyAnswer = {
 					.html('Show less');
 				$(groupListEl).find('.group').not('.always-show')
 					.css('display', 'none')
-					.fadeIn(300);
+					.fadeTo(300, 1);
 				$(groupListEl).find('.attribute-list').not('.always-show')
 					.css('display', 'none')
-					.fadeIn(300);
+					.fadeTo(300, 1);
 			}
 		}
 	},
@@ -168,7 +168,7 @@ const OneToManyAnswer = {
 
 				// append list and add class
 				$(HTML).insertAfter(this);
-				$(this).next('.attribute-list').css('display', 'none').fadeIn();
+				$(this).next('.attribute-list').css('display', 'none').fadeTo(400, 1);
 				self.drawDistributions(this);
 				self.installMouseenterAttributeNameBehaviour(this);
 				self.installClickAttributeNameBehaviour(this);

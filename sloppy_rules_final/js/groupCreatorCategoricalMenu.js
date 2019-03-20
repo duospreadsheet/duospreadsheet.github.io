@@ -25,7 +25,7 @@ const GroupCreatorCategoricalMenu = {
 		if (fadeIn)
 			$('#group-creator .categorical-attribute-value-pair.menu')
 				.css('display', 'none')
-				.fadeIn(200);
+				.fadeTo(200, 1);
 
 		if (!fadeIn)
 			$('#group-creator .categorical-attribute-value-pair.menu')
@@ -122,7 +122,7 @@ const GroupCreatorCategoricalMenu = {
 			if (fadeIn)
 				$('#group-creator .categorical-attribute-value-pair.menu .value')
 					.css('display', 'none')
-					.fadeIn(300);
+					.fadeTo(300, 1);
 
 			if (!fadeIn)
 				$('#group-creator .categorical-attribute-value-pair.menu .value')

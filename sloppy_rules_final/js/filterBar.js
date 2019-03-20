@@ -63,7 +63,7 @@ const FilterBar = {
 
 		$('#table .filter-bar .header').css('display', 'none');
 		$('#table .filter-bar .header').html(filterHeaderText);
-		$('#table .filter-bar .header').fadeIn();
+		$('#table .filter-bar .header').fadeTo(400, 1);
 	},
 	drawFilters: function() {
 		const self = this;
@@ -107,7 +107,7 @@ const FilterBar = {
 
 		// animate
 		$('#table .filter-bar .content .filter:last-child').css('display', 'none');
-		$('#table .filter-bar .content .filter:last-child').fadeIn();
+		$('#table .filter-bar .content .filter:last-child').fadeTo(400, 1);
 	},
 	generateFilterText: function(filter) {
 		let isCurrentAttrNumerical = ('lowerValue' in filter);

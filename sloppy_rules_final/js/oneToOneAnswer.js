@@ -414,7 +414,7 @@ const OneToOneAnswer = {
 					.html('Show less');
 				$(attributeListEl).find('.attribute').not('.always-show')
 					.css('display', 'none')
-					.fadeIn(300);
+					.fadeTo(300, 1);
 			}
 		}
 	},

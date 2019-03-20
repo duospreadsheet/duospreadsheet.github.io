@@ -12,7 +12,7 @@ const GroupCreatorAttributeMenu = {
 		if (fadeIn)
 			$('#group-creator .attribute-only.menu')
 				.css('display', 'none')
-				.fadeIn(200);
+				.fadeTo(200, 1);
 
 		if (!fadeIn)
 			$('#group-creator .attribute-only.menu')

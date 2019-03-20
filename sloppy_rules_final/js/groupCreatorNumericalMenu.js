@@ -21,7 +21,7 @@ const GroupCreatorNumericalMenu = {
 			if (fadeIn)
 				$('#group-creator .numerical-attribute-value-pair.menu .range')
 					.css('display', 'none')
-					.fadeIn(300);
+					.fadeTo(300, 1);
 
 			if (!fadeIn)
 				$('#group-creator .numerical-attribute-value-pair.menu .range')
@@ -142,7 +142,7 @@ const GroupCreatorNumericalMenu = {
 		if (fadeIn)
 			$('#group-creator .numerical-attribute-value-pair.menu')
 				.css('display', 'none')
-				.fadeIn(200);
+				.fadeTo(200, 1);
 
 		if (!fadeIn)
 			$('#group-creator .numerical-attribute-value-pair.menu')
