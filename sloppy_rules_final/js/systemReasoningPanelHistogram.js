@@ -190,6 +190,14 @@ const SystemReasoningPanelHistogram = {
             	let currentTopBarPercentTextY = currentTopBarBBox.y - 8;
             	let currentTopBarPercentTextAnchor = 'end';
 
+            	// handle safari bug
+				if (currentTopBarPercentTextX == 0 - 1 - 3) {
+					let currentBottomBarEl = allBottomBarEl[currentBinIndex];
+					let currentBottomBarBBox = currentBottomBarEl.getBBox();
+					currentTopBarPercentTextX = currentBottomBarBBox.x - 1 - 3;
+					currentTopBarPercentTextY = currentBottomBarBBox.y - 8;
+				}
+
             	// adjust x if needed
 				if (allBottomBarEl.length == 0) {
 					currentTopBarPercentTextX = currentTopBarBBox.x + currentTopBarBBox.width / 2;
@@ -201,7 +209,7 @@ const SystemReasoningPanelHistogram = {
 					let currentBottomBarEl = allBottomBarEl[currentBinIndex];
 					let currentBottomBarBBox = currentBottomBarEl.getBBox();
 
-					if (currentTopBarBBox.y > currentBottomBarBBox.y) 
+					if (currentTopBarBBox.y > currentBottomBarBBox.y && currentBottomBarBBox.y != 0) // handle safari bug
 						currentTopBarPercentTextY = currentBottomBarBBox.y - 8;
 				}
 
@@ -239,6 +247,14 @@ const SystemReasoningPanelHistogram = {
 				let currentBottomBarPercentTextY = currentBottomBarBBox.y - 8;
 				let currentBottomBarPercentTextAnchor = 'start';
 
+				// handle safari bug
+				if (currentBottomBarPercentTextX == 0 + 1 + 3) {
+					let currentTopBarEl = allTopBarEl[currentBinIndex];
+					let currentTopBarBBox = currentTopBarEl.getBBox();
+					currentBottomBarPercentTextX = currentTopBarBBox.x + currentTopBarBBox.width + 1 + 3;
+					currentBottomBarPercentTextY = currentTopBarBBox.y - 8;
+				}
+
 				// adjust x if needed
 				if (allTopBarEl.length == 0) {
 					currentBottomBarPercentTextX = currentBottomBarBBox.x + currentBottomBarBBox.width / 2;
@@ -250,7 +266,7 @@ const SystemReasoningPanelHistogram = {
 					let currentTopBarEl = allTopBarEl[currentBinIndex];
 					let currentTopBarBBox = currentTopBarEl.getBBox();
 
-					if (currentBottomBarBBox.y > currentTopBarBBox.y) 
+					if (currentBottomBarBBox.y > currentTopBarBBox.y && currentTopBarBBox.y != 0) // handle safari bug
 						currentBottomBarPercentTextY = currentTopBarBBox.y - 8;
 				}
 
@@ -310,6 +326,10 @@ const SystemReasoningPanelHistogram = {
 				let currentTopBarBBox = currentTopBarEl.getBBox();
 				lowerValueX = currentTopBarBBox.x;
             	upperValueX = currentBottomBarBBox.x + currentBottomBarBBox.width;
+
+            	// handle safari bug
+            	if (lowerValueX == 0) lowerValueX = currentBottomBarBBox.x - currentBottomBarBBox.width;
+            	if (upperValueX == 0) upperValueX = currentTopBarBBox.x + currentTopBarBBox.width * 2;
             }
 
 			let lowerValueText = SystemReasoningPanel.svgGroup.select('.x.axis').append('text')
